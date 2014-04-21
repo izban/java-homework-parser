@@ -1,8 +1,6 @@
 package expression;
 
-import exceptions.LogException;
 import exceptions.MyException;
-import exceptions.OverflowException;
 import number.MyNumber;
 
 public class UnaryLb<T extends MyNumber<T>> extends UnaryOperator<T> {
@@ -11,6 +9,6 @@ public class UnaryLb<T extends MyNumber<T>> extends UnaryOperator<T> {
     }
 
     protected T evalImpl(T a) throws MyException {
-        return a.UnaryLb();
+        return a.unaryLb();
     }
 }

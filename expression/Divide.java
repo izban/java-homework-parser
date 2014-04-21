@@ -1,8 +1,6 @@
 package expression;
 
-import exceptions.DivisionByZeroException;
 import exceptions.MyException;
-import exceptions.OverflowException;
 import number.MyNumber;
 
 public class Divide<T extends MyNumber<T>> extends BinaryOperator<T> {
@@ -12,6 +10,6 @@ public class Divide<T extends MyNumber<T>> extends BinaryOperator<T> {
     }
 
     protected T evalImpl(T a, T b) throws MyException {
-        return a.Divide(b);
+        return a.divide(b);
     }
 }

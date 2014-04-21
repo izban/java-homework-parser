@@ -26,25 +26,25 @@ public class MyDouble implements MyNumber<MyDouble> {
     }
 
     @Override
-    public MyDouble Add(MyDouble x) throws OverflowException {
+    public MyDouble add(MyDouble x) throws OverflowException {
         double a = value, b = x.value;
         return new MyDouble(a + b);
     }
 
     @Override
-    public MyDouble Subtract(MyDouble x) throws OverflowException {
+    public MyDouble subtract(MyDouble x) throws OverflowException {
         double a = value, b = x.value;
         return new MyDouble(a - b);
     }
 
     @Override
-    public MyDouble Multiply(MyDouble x) throws OverflowException {
+    public MyDouble multiply(MyDouble x) throws OverflowException {
         double a = value, b = x.value;
         return new MyDouble(a * b);
     }
 
     @Override
-    public MyDouble Divide(MyDouble x) throws OverflowException, DivisionByZeroException {
+    public MyDouble divide(MyDouble x) throws OverflowException, DivisionByZeroException {
         double a = value, b = x.value;
         if (Math.abs(b) < eps) {
             //assert false;
@@ -55,17 +55,17 @@ public class MyDouble implements MyNumber<MyDouble> {
     }
 
     @Override
-    public MyDouble UnaryAbs() throws OverflowException {
+    public MyDouble unaryAbs() throws OverflowException {
         return new MyDouble(Math.abs(value));
     }
 
     @Override
-    public MyDouble UnaryNot() {
+    public MyDouble unaryNot() {
         return new MyDouble(value); // will never happen
     }
 
     @Override
-    public MyDouble UnaryMinus() throws OverflowException {
+    public MyDouble unaryMinus() throws OverflowException {
         return new MyDouble(-value);
     }
 
@@ -75,7 +75,7 @@ public class MyDouble implements MyNumber<MyDouble> {
     }
 
     @Override
-    public MyDouble UnaryLb() throws LogException {
+    public MyDouble unaryLb() throws LogException {
         double x = value;
         if (x < eps) {
             throw new LogException("log error");
@@ -93,7 +93,7 @@ public class MyDouble implements MyNumber<MyDouble> {
     }
 
     @Override
-    public MyDouble Pow(MyDouble x) throws OverflowException {
+    public MyDouble pow(MyDouble x) throws OverflowException {
         double a = value, b = x.value;
         if (b < -eps || Math.abs(a) < eps && Math.abs(b) < eps) {
             //assert false;

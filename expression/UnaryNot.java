@@ -9,6 +9,6 @@ public class UnaryNot<T extends MyNumber<T>> extends UnaryOperator<T> {
     }
     
     protected T evalImpl(T a) throws MyException {
-        return a.UnaryNot();
+        return a.unaryNot();
     }
 }

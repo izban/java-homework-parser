@@ -1,7 +1,6 @@
 package expression;
 
 import exceptions.MyException;
-import exceptions.OverflowException;
 import number.MyNumber;
 
 public class Multiply<T extends MyNumber<T>> extends BinaryOperator<T> {
@@ -15,6 +14,6 @@ public class Multiply<T extends MyNumber<T>> extends BinaryOperator<T> {
     }
 
     protected T evalImpl(T a, T b) throws MyException {
-        return a.Multiply(b);
+        return a.multiply(b);
     }
 }

@@ -23,19 +23,19 @@ public class MyInteger implements MyNumber<MyInteger> {
     }
 
     @Override
-    public MyInteger Add(MyInteger x) throws OverflowException {
+    public MyInteger add(MyInteger x) throws OverflowException {
         int a = value, b = x.value;
         return new MyInteger(a + b);
     }
 
     @Override
-    public MyInteger Subtract(MyInteger x) throws OverflowException {
+    public MyInteger subtract(MyInteger x) throws OverflowException {
         int a = value, b = x.value;
         return new MyInteger(a - b);
     }
 
     @Override
-    public MyInteger Multiply(MyInteger x) throws OverflowException {
+    public MyInteger multiply(MyInteger x) throws OverflowException {
         int a = value, b = x.value;
         int res = a * b;
         return new MyInteger(a * b);
@@ -47,7 +47,7 @@ public class MyInteger implements MyNumber<MyInteger> {
     }
 
     @Override
-    public MyInteger Divide(MyInteger x) throws OverflowException, DivisionByZeroException {
+    public MyInteger divide(MyInteger x) throws OverflowException, DivisionByZeroException {
         int a = value, b = x.value;
         if (b == 0) {
             throw new DivisionByZeroException("division by zero");
@@ -56,19 +56,19 @@ public class MyInteger implements MyNumber<MyInteger> {
     }
 
     @Override
-    public MyInteger UnaryAbs() throws OverflowException {
+    public MyInteger unaryAbs() throws OverflowException {
         int a = value;
         return new MyInteger(Math.abs(a));
     }
 
     @Override
-    public MyInteger UnaryNot() {
+    public MyInteger unaryNot() {
         int a = value;
         return new MyInteger(~a);
     }
 
     @Override
-    public MyInteger UnaryMinus() throws OverflowException {
+    public MyInteger unaryMinus() throws OverflowException {
         int a = value;
         return new MyInteger(-a);
     }
@@ -79,7 +79,7 @@ public class MyInteger implements MyNumber<MyInteger> {
     }
 
     @Override
-    public MyInteger UnaryLb() throws LogException {
+    public MyInteger unaryLb() throws LogException {
         int x = value;
         if (x <= 0) {
             throw new LogException("log error");
@@ -101,7 +101,7 @@ public class MyInteger implements MyNumber<MyInteger> {
     }
 
     @Override
-    public MyInteger Pow(MyInteger x) throws OverflowException {
+    public MyInteger pow(MyInteger x) throws OverflowException {
         int a = value, b = x.value;
         if (b < 0 || a == 0 && b == 0) {
             throw new OverflowException("pow error");

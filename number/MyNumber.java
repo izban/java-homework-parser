@@ -13,15 +13,15 @@ import exceptions.ParseException;
  * To change this template use File | Settings | File Templates.
  */
 public interface MyNumber<T> {
-    T Add(T x) throws OverflowException;
-    T Subtract(T x) throws OverflowException;
-    T Multiply(T x) throws OverflowException;
-    T Divide(T x) throws OverflowException, DivisionByZeroException;
-    T UnaryAbs() throws OverflowException;
-    T UnaryNot();
-    T UnaryMinus() throws OverflowException;
-    T UnaryLb() throws LogException;
-    T Pow(T x) throws OverflowException;
+    T add(T x) throws OverflowException;
+    T subtract(T x) throws OverflowException;
+    T multiply(T x) throws OverflowException;
+    T divide(T x) throws OverflowException, DivisionByZeroException;
+    T unaryAbs() throws OverflowException;
+    T unaryNot();
+    T unaryMinus() throws OverflowException;
+    T unaryLb() throws LogException;
+    T pow(T x) throws OverflowException;
     T parse(String s, int pos) throws ParseException;
     int compareTo(T a);
     String toString();
