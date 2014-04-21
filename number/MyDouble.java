@@ -46,11 +46,6 @@ public class MyDouble implements MyNumber<MyDouble> {
     @Override
     public MyDouble divide(MyDouble x) throws OverflowException, DivisionByZeroException {
         double a = value, b = x.value;
-        if (Math.abs(b) < eps) {
-            //assert false;
-            throw new DivisionByZeroException("division by zero");
-            //return new MyDouble();
-        }
         return new MyDouble(a / b);
     }
 
@@ -84,22 +79,9 @@ public class MyDouble implements MyNumber<MyDouble> {
         return new MyDouble(x);
     }
 
-    int pow(int a, int b) throws OverflowException {
-        if (b == 0) return 1;
-        int result = pow(a, b / 2);
-        result = result * result;
-        if (b % 2 == 1) result = result * a;
-        return result;
-    }
-
     @Override
     public MyDouble pow(MyDouble x) throws OverflowException {
         double a = value, b = x.value;
-        if (b < -eps || Math.abs(a) < eps && Math.abs(b) < eps) {
-            //assert false;
-            //return new MyDouble();
-            throw new OverflowException("overflow");
-        }
         return new MyDouble(Math.pow(a, b));
     }
 
