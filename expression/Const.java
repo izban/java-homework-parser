@@ -1,15 +1,16 @@
 package expression;
 
 import exceptions.MyException;
+import number.MyNumber;
 
-public class Const implements Expression3 {
-    private final int value;
+public class Const<T extends MyNumber<T>> implements Expression3<T> {
+    private final T value;
 
-    public Const(int x) {
+    public Const(T x) {
         value = x;
     }
 
-    public int evaluate(int x, int y, int z) throws MyException {
+    public T evaluate(T x, T y, T z) throws MyException {
         return value;
     }
 }

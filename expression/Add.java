@@ -2,17 +2,15 @@ package expression;
 
 import exceptions.MyException;
 import exceptions.OverflowException;
+import number.MyNumber;
 
-public class Add extends BinaryOperator {
+public class Add<T extends MyNumber<T>> extends BinaryOperator<T> {
 
-    public Add(Expression3 l, Expression3 r) {
+    public Add(Expression3<T> l, Expression3<T> r) {
         super(l, r);
     }
 
-    protected int evalImpl(int a, int b) throws MyException {
-        if (b > 0 && a > Integer.MAX_VALUE - b || b < 0 && a < Integer.MIN_VALUE - b) {
-            throw new OverflowException("overflow");
-        }
-        return a + b;
+    protected T evalImpl(T a, T b) throws MyException {
+        return a.Add(b);
     }
 }

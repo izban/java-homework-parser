@@ -1,5 +1,8 @@
 import exceptions.MyException;
 import expression.Expression3;
+import number.MyBigInteger;
+import number.MyDouble;
+import number.MyInteger;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.io.File;
@@ -17,7 +20,7 @@ import java.io.PrintWriter;
 public class Test {
     static String doTest(String s, int x, int y, int z) {
         try {
-            return Integer.toString(ExpressionParser.parse(s).evaluate(x, y, z));
+            return ExpressionParser.parse(s, new MyBigInteger()).evaluate(new MyBigInteger(x), new MyBigInteger(y), new MyBigInteger(z)).toString();
         } catch (MyException e) {
             return (e.getMessage());
         } catch (Exception e) {
@@ -58,22 +61,10 @@ public class Test {
         test("(1))", 0, 0, 0);
         test("0x1", 0, 0, 0);
         test("(-1+" + (Integer.MIN_VALUE + 1) + ")" + "*-1", 0, 0, 0);
+        test("-1000*x/-y+(z^z - 2)", 2, 3, 5);
     }
 
     public static void main(String[] args) {
         myTests();
-        /*System.out.println(test("(-1+" + (Integer.MIN_VALUE + 1) + ")" + "*-1", 0, 0, 0));
-        System.out.println(test("x^y^z", 2, 3, 3));
-        try {
-            PrintWriter out = new PrintWriter(new File("result.out"));
-            for (int x = 0; x < 100; x++) {
-                for (int y = 0; y < 100; y++) {
-                    out.print(test("x^5 + y * lb (x^2 + 3)", x, y, 0) + " ");
-                }
-                out.println();
-            }
-        } catch (IOException e) {
-
-        } */
     }
 }

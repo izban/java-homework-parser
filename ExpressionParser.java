@@ -1,23 +1,25 @@
 import expression.*;
 import exceptions.*;
+import number.MyInteger;
+import number.MyNumber;
 
-public class ExpressionParser {
-    static private String lastLexem;
-    static private Lexer lexer;
+public class ExpressionParser<T extends MyNumber<T>> {
+    private String lastLexem;
+    private Lexer lexer;
 
-    static private Expression3 parseValue() throws ParseException {
+    private <T extends MyNumber<T>> Expression3<T> parseValue(T test) throws ParseException {
         String s = lastLexem;
-        Expression3 result;
+        Expression3<T> result;
         if (s.charAt(0) >= '0' && s.charAt(0) <= '9') {
             try {
-                result = new Const(Integer.parseInt(s));
+                result = new Const<T>(test.parse(s, lexer.getLast()));
             } catch (NumberFormatException e) {
                 throw new ParseException("parse fail at " + Integer.toString(lexer.getLast()));
             }
         } else if (s.charAt(0) >= 'x' && s.charAt(0) <= 'z') {
-            result = new Variable(s);
+            result = new Variable<T>(s);
         } else if (s.equals("(")) {
-            result = parseExpr();
+            result = parseExpr(test);
             if (!lastLexem.equals(")")) {
                 throw new ParseException("parse fail at " + Integer.toString(lexer.getLast()));
             }
@@ -28,43 +30,43 @@ public class ExpressionParser {
         return result;
     }
 
-    static private Expression3 parseMultiplier() throws ParseException {
+    private <T extends MyNumber<T>> Expression3<T> parseMultiplier(T test) throws ParseException {
         lastLexem = lexer.next();
         String s = lastLexem;
-        Expression3 result;
+        Expression3<T> result;
         if (s.equals("")) {
             throw new ParseException("parse fail at " + Integer.toString(lexer.getLast()));
         } else
         if (s.equals("~")) {
-            result = new UnaryNot(parseMultiplier());
+            result = new UnaryNot<T>(parseMultiplier(test));
         } else
         if (s.equals("-")) {
-            result = new UnaryMinus(parseMultiplier());
+            result = new UnaryMinus<T>(parseMultiplier(test));
         } else
         if (s.equals("abs")) {
-            result = new UnaryAbs(parseMultiplier());
+            result = new UnaryAbs<T>(parseMultiplier(test));
         } else
         if (s.equals("lb")) {
-            result = new UnaryLb(parseMultiplier());
+            result = new UnaryLb<T>(parseMultiplier(test));
         } else {
-            result = parseValue();
+            result = parseValue(test);
             if (lastLexem.equals("^")) {
-                result = new Pow(result, parseMultiplier());
+                result = new Pow<T>(result, parseMultiplier(test));
             }
         }
         return result;
     }
 
-    static private Expression3 parseSummand() throws ParseException {
-        Expression3 left = parseMultiplier();
+    private <T extends MyNumber<T>> Expression3<T> parseSummand(T test) throws ParseException {
+        Expression3<T> left = parseMultiplier(test);
         while (true) {
             String s = lastLexem;
             switch (s) {
                 case "*":
-                    left = new Multiply(left, parseMultiplier());
+                    left = new Multiply<T>(left, parseMultiplier(test));
                     break;
                 case "/":
-                    left = new Divide(left, parseMultiplier());
+                    left = new Divide<T>(left, parseMultiplier(test));
                     break;
                 case ")":
                 case "":
@@ -77,17 +79,17 @@ public class ExpressionParser {
         }
     }
 
-    static private Expression3 parseExpr() throws ParseException {
-        Expression3 left = parseSummand();
+    private <T extends MyNumber<T>> Expression3<T> parseExpr(T test) throws ParseException {
+        Expression3<T> left = parseSummand(test);
         while (true) {
             String s = lastLexem;
             switch (s) {
                 case "+": {
-                    left = new Add(left, parseSummand());
+                    left = new Add<T>(left, parseSummand(test));
                     break;
                 }
                 case "-": {
-                    left = new Subtract(left, parseSummand());
+                    left = new Subtract<T>(left, parseSummand(test));
                     break;
                 }
                 case ")": {
@@ -103,12 +105,16 @@ public class ExpressionParser {
         }
     }
 
-    static public Expression3 parse(String s) throws MyException {
+    private <T extends MyNumber<T>> Expression3<T> run(String s, T test) throws MyException {
         lexer = new Lexer(s);
-        Expression3 result = parseExpr();
+        Expression3<T> result = parseExpr(test);
         if (!lastLexem.equals("")) {
             throw new ParseException("parse fail at " + Integer.toString(lexer.getLast()));
         }
         return result;
+    }
+
+    static public <T extends MyNumber<T>> Expression3<T> parse(String s, T test) throws MyException {
+        return new ExpressionParser<T>().run(s, test);
     }
 }

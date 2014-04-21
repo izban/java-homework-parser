@@ -3,20 +3,15 @@ package expression;
 import exceptions.DivisionByZeroException;
 import exceptions.MyException;
 import exceptions.OverflowException;
+import number.MyNumber;
 
-public class Divide extends BinaryOperator {
+public class Divide<T extends MyNumber<T>> extends BinaryOperator<T> {
 
-    public Divide(Expression3 l, Expression3 r) {
+    public Divide(Expression3<T> l, Expression3<T> r) {
         super(l, r);
     }
 
-    protected int evalImpl(int a, int b) throws MyException {
-        if (b == 0) {
-            throw new DivisionByZeroException("division by zero");
-        }
-        if (a == Integer.MIN_VALUE && b == -1) {
-            throw new OverflowException("overflow");
-        }
-        return a / b;
+    protected T evalImpl(T a, T b) throws MyException {
+        return a.Divide(b);
     }
 }

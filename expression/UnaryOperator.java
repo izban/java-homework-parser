@@ -1,18 +1,19 @@
 package expression;
 
 import exceptions.MyException;
+import number.MyNumber;
 
-public abstract class UnaryOperator implements Expression3 {
-    protected final Expression3 e;
+public abstract class UnaryOperator<T extends MyNumber<T>> implements Expression3<T> {
+    protected final Expression3<T> e;
 
-    public UnaryOperator(Expression3 e) {
+    public UnaryOperator(Expression3<T> e) {
         this.e = e;
     }
 
-    protected abstract int evalImpl(int a) throws MyException;
+    protected abstract T evalImpl(T a) throws MyException;
 
-    public int evaluate(int x, int y, int z) throws MyException {
-       int a = e.evaluate(x, y, z);
+    public T evaluate(T x, T y, T z) throws MyException {
+       T a = e.evaluate(x, y, z);
        return evalImpl(a);
     }
 }
