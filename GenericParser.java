@@ -3,7 +3,6 @@ import expression.Expression3;
 import number.MyBigInteger;
 import number.MyDouble;
 import number.MyInteger;
-import sun.org.mozilla.javascript.ast.Yield;
 
 /**
  * Created with IntelliJ IDEA.
