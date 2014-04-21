@@ -14,8 +14,8 @@ import sun.org.mozilla.javascript.ast.Yield;
  */
 public class GenericParser {
     public static void main(String[] args) {
-        String type = args[0];
         try {
+            String type = args[0];
             if (type.equals("-i")) {
                 Expression3<MyInteger> expr = ExpressionParser.parse(args[1], new MyInteger());
                 for (int x = -100; x <= 100; x++) {
