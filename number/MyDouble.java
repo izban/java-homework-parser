@@ -15,7 +15,7 @@ import exceptions.ParseException;
 public class MyDouble implements MyNumber<MyDouble> {
     private final double eps = 1e-9;
 
-    public double value;
+    final public double value;
 
     public MyDouble() {
         value = 0;

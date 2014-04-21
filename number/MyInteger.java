@@ -12,7 +12,7 @@ import expression.Multiply;
  * To change this template use File | Settings | File Templates.
  */
 public class MyInteger implements MyNumber<MyInteger> {
-    public int value;
+    final public int value;
 
     public MyInteger() {
         value = 0;

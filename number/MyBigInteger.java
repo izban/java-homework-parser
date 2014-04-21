@@ -15,7 +15,7 @@ import java.math.BigInteger;
  * To change this template use File | Settings | File Templates.
  */
 public class MyBigInteger implements MyNumber<MyBigInteger> {
-    public BigInteger value;
+    final public BigInteger value;
 
     public MyBigInteger() {
         value = BigInteger.ZERO;
@@ -91,7 +91,7 @@ public class MyBigInteger implements MyNumber<MyBigInteger> {
     }
 
     BigInteger pow(BigInteger a, BigInteger b) throws OverflowException {
-        if (b.equals(BigInteger.ONE)) return BigInteger.ONE;
+        if (b.equals(BigInteger.ZERO)) return BigInteger.ONE;
         BigInteger result = pow(a, b.divide(BigInteger.valueOf(2)));
         result = result.multiply(result);
         if (!b.remainder(BigInteger.valueOf(2)).equals(BigInteger.ZERO)) result = result.multiply(a);
