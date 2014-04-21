@@ -25,18 +25,12 @@ public class MyInteger implements MyNumber<MyInteger> {
     @Override
     public MyInteger Add(MyInteger x) throws OverflowException {
         int a = value, b = x.value;
-        if (b > 0 && a > Integer.MAX_VALUE - b || b < 0 && a < Integer.MIN_VALUE - b) {
-            throw new OverflowException("overflow");
-        }
         return new MyInteger(a + b);
     }
 
     @Override
     public MyInteger Subtract(MyInteger x) throws OverflowException {
         int a = value, b = x.value;
-        if (b > 0 && a < Integer.MIN_VALUE + b || b < 0 && a > Integer.MAX_VALUE + b) {
-            throw new OverflowException("overflow");
-        }
         return new MyInteger(a - b);
     }
 
@@ -44,17 +38,11 @@ public class MyInteger implements MyNumber<MyInteger> {
     public MyInteger Multiply(MyInteger x) throws OverflowException {
         int a = value, b = x.value;
         int res = a * b;
-        if (a == Integer.MIN_VALUE && b == -1 || b != 0 && res / b != a) {
-            throw new OverflowException("overflow");
-        }
         return new MyInteger(a * b);
     }
 
     int mul(int a, int b) throws OverflowException {
         int res = a * b;
-        if (a == Integer.MIN_VALUE && b == -1 || b != 0 && res / b != a) {
-            throw new OverflowException("overflow");
-        }
         return res;
     }
 
@@ -64,18 +52,12 @@ public class MyInteger implements MyNumber<MyInteger> {
         if (b == 0) {
             throw new DivisionByZeroException("division by zero");
         }
-        if (a == Integer.MIN_VALUE && b == -1) {
-            throw new OverflowException("overflow");
-        }
         return new MyInteger(a / b);
     }
 
     @Override
     public MyInteger UnaryAbs() throws OverflowException {
         int a = value;
-        if (a == Integer.MIN_VALUE) {
-            throw new OverflowException("overflow");
-        }
         return new MyInteger(Math.abs(a));
     }
 
@@ -88,9 +70,6 @@ public class MyInteger implements MyNumber<MyInteger> {
     @Override
     public MyInteger UnaryMinus() throws OverflowException {
         int a = value;
-        if (a == Integer.MIN_VALUE) {
-            throw new OverflowException("overflow");
-        }
         return new MyInteger(-a);
     }
 
