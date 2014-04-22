@@ -2,8 +2,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.math.BigInteger;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by Niyaz Nigmatullin on 4/21/14.
@@ -13,6 +12,55 @@ public class GenericParserTest {
     static final Random RNG = new Random(58L);
 
     public static void main(String[] args) {
+        {
+            System.err.println("check TL");
+            Test t = new Generator(0).genExpression(1, 10);
+            int toAdd = 777777;
+            int[] pair = new int[t.expr.length()];
+            List<Integer> stack = new ArrayList<>();
+            int count = 0;
+            int[] id = new int[t.expr.length()];
+            for (int i = 0; i < pair.length; i++) {
+                char c = t.expr.charAt(i);
+                if (c == '(') {
+                    stack.add(i);
+                    id[i] = count;
+                    ++count;
+                } else if (c == ')') {
+                    int j = stack.remove(stack.size() - 1);
+                    pair[i] = j;
+                    pair[j] = i;
+                    id[j] = id[i];
+                }
+            }
+            int[] d = new int[count];
+            int sum = 0;
+            for (int i = 0; i < count; i++) {
+                d[i] = RNG.nextInt(toAdd / count) + 1;
+                sum += d[i];
+            }
+            double mul = 1. * toAdd / sum;
+            for (int i = 0; i < count; i++) {
+                d[i] = (int) Math.round(mul * d[i]);
+            }
+            StringBuilder sb = new StringBuilder();
+            char[] charArray = t.expr.toCharArray();
+            for (int index = 0; index < charArray.length; index++) {
+                char c = charArray[index];
+                if (c == '(') {
+                    for (int i = 0; i < d[id[index]]; i++) {
+                        sb.append('(');
+                    }
+                } else if (c == ')') {
+                    for (int i = 0; i < d[id[index]]; i++) {
+                        sb.append(')');
+                    }
+                }
+                sb.append(c);
+            }
+            t.expr = sb.toString();
+            if (!checkTest(t)) return;
+        }
         for (int type = 0; type < 3; type++) {
             Generator g = new Generator(type);
             System.err.println("Testing type: " + type);
@@ -307,20 +355,12 @@ public class GenericParserTest {
                     return new Test("abs( " + t.expr + " )", abs(t.answer), type);
                 }
             } else if (RNG.nextBoolean()) {
-                int val = RNG.nextInt();
+                Object z = type == 0 ? RNG.nextInt() : type == 1 ? (RNG.nextDouble() * Math.pow(10, RNG.nextInt(41) - 20)) : randomBigInteger();
                 Object[][] ret = new Object[201][201];
                 for (int i = 0; i <= 200; i++) {
-                    for (int j = 0; j <= 200; j++) {
-                        if (type == 0) {
-                            ret[i][j] = val;
-                        } else if (type == 1) {
-                            ret[i][j] = (double) val;
-                        } else {
-                            ret[i][j] = BigInteger.valueOf(val);
-                        }
-                    }
+                    Arrays.fill(ret[i], z);
                 }
-                return new Test("" + val, ret, type);
+                return new Test("" + (z.toString()), ret, type);
             } else {
                 int id = RNG.nextInt(2);
                 Object[][] ret = new Object[201][201];
@@ -342,6 +382,14 @@ public class GenericParserTest {
 
         boolean makeNewBranch(int depth, int coefficient) {
             return RNG.nextInt(depth + coefficient) < coefficient;
+        }
+
+        static BigInteger randomBigInteger() {
+            StringBuilder sb = new StringBuilder();
+            if (RNG.nextBoolean()) sb.append('-');
+            int len = RNG.nextInt(50) + 1;
+            for (int i = 0; i < len; i++) sb.append(RNG.nextInt(10));
+            return new BigInteger(sb.toString());
         }
     }
 
