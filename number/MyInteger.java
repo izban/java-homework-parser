@@ -113,7 +113,7 @@ public class MyInteger implements MyNumber<MyInteger> {
     public MyInteger parse(String s, int pos) throws ParseException {
         int result;
         try {
-            result = Integer.parseInt(s);
+            result = (int)Long.parseLong(s);
         } catch (NumberFormatException e) {
             throw new ParseException("parse fail at " + Integer.toString(pos));
         }

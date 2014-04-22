@@ -62,6 +62,7 @@ public class Test {
         test("0x1", 0, 0, 0);
         test("(-1+" + (Integer.MIN_VALUE + 1) + ")" + "*-1", 0, 0, 0);
         test("-1000*x/-y+(z^z - 2)", 2, 3, 5);
+        test(Integer.toString(Integer.MIN_VALUE), 0, 0, 0);
     }
 
     public static void main(String[] args) {
