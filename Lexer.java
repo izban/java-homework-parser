@@ -23,7 +23,8 @@ class Lexer {
         }
         if (Character.isDigit(s.charAt(i))) {
             int j = i;
-            while (j + 1 < s.length() && Character.isDigit(s.charAt(j + 1))) {
+            while (j + 1 < s.length() && (Character.isDigit(s.charAt(j + 1)) || s.charAt(j + 1) == 'E' ||
+                s.charAt(j + 1) == 'e' || s.charAt(j + 1) == '-' || s.charAt(j + 1) == '.')) {
                 j++;
             }
             int oi = i;
