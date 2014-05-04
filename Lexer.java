@@ -13,6 +13,31 @@ class Lexer {
         return last;
     }
 
+    String parseNumber() {
+        int j = i;
+        while (j + 1 < s.length() && Character.isDigit(s.charAt(j + 1))) {
+            j++;
+        }
+        if (j + 1 < s.length() && s.charAt(j + 1) == '.') {
+            j++;
+            while (j + 1 < s.length() && Character.isDigit(s.charAt(j + 1))) {
+                j++;
+            }
+        }
+        if (j + 1 < s.length() && (s.charAt(j + 1) == 'e' || s.charAt(j + 1) == 'E')) {
+            j++;
+            if (j + 1 < s.length() && s.charAt(j + 1) == '-') {
+                j++;
+            }
+            while (j + 1 < s.length() && Character.isDigit(s.charAt(j + 1))) {
+                j++;
+            }
+        }
+        String res = s.substring(i, j + 1);
+        i = j + 1;
+        return res;
+    }
+
     String next() throws ParseException {
         while (i < s.length() && Character.isWhitespace(s.charAt(i))) {
             i++;
@@ -22,14 +47,15 @@ class Lexer {
             return "";
         }
         if (Character.isDigit(s.charAt(i))) {
-            int j = i;
+            return parseNumber();
+            /*int j = i;
             while (j + 1 < s.length() && (Character.isDigit(s.charAt(j + 1)) || s.charAt(j + 1) == 'E' ||
                 s.charAt(j + 1) == 'e' || s.charAt(j + 1) == '-' || s.charAt(j + 1) == '.')) {
                 j++;
             }
             int oi = i;
             i = j + 1;
-            return s.substring(oi, j + 1);
+            return s.substring(oi, j + 1);*/
         }
         if (Character.isLetter(s.charAt(i))) {
             int j = i;
