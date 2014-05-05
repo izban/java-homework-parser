@@ -86,6 +86,17 @@ public class MyDouble extends MyNumber<MyDouble> {
     }
 
     @Override
+    public MyDouble parse(String s) throws ParseException {
+        double result;
+        try {
+            result = Double.parseDouble(s);
+        } catch (NumberFormatException e) {
+            throw new ParseException();
+        }
+        return new MyDouble(result);
+    }
+
+    @Override
     public String toString() {
         return Double.toString(value);
     }

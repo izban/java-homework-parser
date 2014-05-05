@@ -1,9 +1,6 @@
 import exceptions.MyException;
 import expression.Expression3;
-import number.HelperInteger;
-import number.MyBigInteger;
-import number.MyDouble;
-import number.MyInteger;
+import number.*;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.io.File;
@@ -21,7 +18,7 @@ import java.io.PrintWriter;
 public class Test {
     static String doTest(String s, int x, int y, int z) {
         try {
-            return ExpressionParser.parse(s, new HelperInteger()).evaluate(new MyInteger(x), new MyInteger(y), new MyInteger(z)).toString();
+            return ExpressionParser.parse(s, new HelperDouble()).evaluate(new MyDouble(x), new MyDouble(y), new MyDouble(z)).toString();
         } catch (MyException e) {
             return (e.getMessage());
         } catch (Exception e) {
@@ -65,6 +62,7 @@ public class Test {
         test("-1000*x/-y+(z^z - 2)", 2, 3, 5);
         test(Integer.toString(Integer.MIN_VALUE), 0, 0, 0);
         test("1-1", 0, 0, 0);
+        test("sin(1)", 0, 0, 0);
     }
 
     public static void main(String[] args) {

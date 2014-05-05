@@ -111,4 +111,15 @@ public class MyBigInteger extends MyNumber<MyBigInteger> {
     public String toString() {
         return value.toString();
     }
+
+    @Override
+    public MyBigInteger parse(String s) throws ParseException {
+        BigInteger result;
+        try {
+            result = new BigInteger(s);
+        } catch (Exception e) {
+            throw new ParseException();
+        }
+        return new MyBigInteger(result);
+    }
 }

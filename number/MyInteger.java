@@ -113,4 +113,15 @@ public class MyInteger extends MyNumber<MyInteger> {
     public String toString() {
         return Integer.toString(value);
     }
+
+    @Override
+    public MyInteger parse(String s) throws ParseException {
+        int result;
+        try {
+            result = (int)Long.parseLong(s);
+        } catch (NumberFormatException e) {
+            throw new ParseException();
+        }
+        return new MyInteger(result);
+    }
 }

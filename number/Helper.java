@@ -1,5 +1,6 @@
 package number;
 
+import exceptions.MyException;
 import exceptions.ParseException;
 import expression.*;
 
@@ -77,6 +78,11 @@ public abstract class Helper<T extends MyNumber<T>> {
         prior.put(")", -1);
     }
 
+    {
+        prior.put("sin", 3);
+        operands.put("sin", 1);
+    }
+
     public abstract T parse(String s) throws ParseException;
 
     public static boolean isVariable(String s) {
@@ -121,7 +127,7 @@ public abstract class Helper<T extends MyNumber<T>> {
         }
     }
 
-    public Expression3<T> applyFunction(String s, Expression3<T> expr) throws ParseException {
+    public Expression3<T> applyFunction(String s, final Expression3<T> expr) throws ParseException {
         switch (s) {
             case "~":
                 return new UnaryNot<T>(expr);
@@ -131,6 +137,15 @@ public abstract class Helper<T extends MyNumber<T>> {
                 return new UnaryAbs<T>(expr);
             case "lb":
                 return new UnaryLb<T>(expr);
+            case "sin":
+                return new UnaryOperator<T>(expr) {
+                    protected T evalImpl(T a) throws ParseException {
+                        return a.parse(Double.toString(Math.sin(Double.parseDouble(a.toString()))));
+                    }
+                    public T evaluate(T x, T y, T z) throws MyException {
+                        return evalImpl(expr.evaluate(x, y, z));
+                    }
+                };
             default:
                 throw new ParseException();
         }
