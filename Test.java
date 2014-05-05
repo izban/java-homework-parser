@@ -1,5 +1,6 @@
 import exceptions.MyException;
 import expression.Expression3;
+import number.HelperInteger;
 import number.MyBigInteger;
 import number.MyDouble;
 import number.MyInteger;
@@ -20,7 +21,7 @@ import java.io.PrintWriter;
 public class Test {
     static String doTest(String s, int x, int y, int z) {
         try {
-            return ExpressionParser.parse(s, new MyInteger()).evaluate(new MyInteger(x), new MyInteger(y), new MyInteger(z)).toString();
+            return ExpressionParser.parse(s, new HelperInteger()).evaluate(new MyInteger(x), new MyInteger(y), new MyInteger(z)).toString();
         } catch (MyException e) {
             return (e.getMessage());
         } catch (Exception e) {
@@ -29,7 +30,7 @@ public class Test {
     }
 
     static void test(String s, int x, int y, int z) {
-        System.out.println(doTest(s, x, y, z));
+        System.out.println(s + ": " + doTest(s, x, y, z));
     }
 
     static void myTests() {

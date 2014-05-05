@@ -14,7 +14,7 @@ import java.math.BigInteger;
  * Time: 17:18
  * To change this template use File | Settings | File Templates.
  */
-public class MyBigInteger implements MyNumber<MyBigInteger> {
+public class MyBigInteger extends MyNumber<MyBigInteger> {
     final public BigInteger value;
 
     public MyBigInteger() {
@@ -105,17 +105,6 @@ public class MyBigInteger implements MyNumber<MyBigInteger> {
             throw new OverflowException("pow error");
         }
         return new MyBigInteger(pow(a, b));
-    }
-
-    @Override
-    public MyBigInteger parse(String s, int pos) throws ParseException {
-        BigInteger result;
-        try {
-            result = new BigInteger(s);
-        } catch (Exception e) {
-            throw new ParseException("parse fail at " + Integer.toString(pos));
-        }
-        return new MyBigInteger(result);
     }
 
     @Override

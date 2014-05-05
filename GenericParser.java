@@ -1,9 +1,6 @@
 import exceptions.MyException;
 import expression.Expression3;
-import number.MyBigInteger;
-import number.MyDouble;
-import number.MyInteger;
-import number.MyNumber;
+import number.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,12 +11,12 @@ import number.MyNumber;
  */
 public class GenericParser {
 
-    <T extends MyNumber<T>> void test(String t, T copy) throws MyException {
+    <T extends MyNumber<T>> void test(String t, Helper<T> copy) throws MyException {
         Expression3<T> expr = ExpressionParser.parse(t, copy);
         for (int x = -100; x <= 100; x++) {
             for (int y = -100; y <= 100; y++) {
                 try {
-                    System.out.print(expr.evaluate(copy.parse(Integer.toString(x), 0), copy.parse(Integer.toString(y), 0), copy.parse("0", 0)).toString() + " ");
+                    System.out.print(expr.evaluate(copy.parse(Integer.toString(x)), copy.parse(Integer.toString(y)), copy.parse("0")).toString() + " ");
                 } catch (MyException e) {
                     System.out.print("error ");
                 } catch (Exception e) {
@@ -34,11 +31,11 @@ public class GenericParser {
         try {
             String type = args[0];
             if (type.equals("-i")) {
-                test(args[1], new MyInteger());
+                test(args[1], new HelperInteger());
             } else if (type.equals("-d")) {
-                test(args[1], new MyDouble());
+                test(args[1], new HelperDouble());
             } else if (type.equals("-bi")) {
-                test(args[1], new MyBigInteger());
+                test(args[1], new HelperBigInteger());
             }
         } catch (Exception e) {
 

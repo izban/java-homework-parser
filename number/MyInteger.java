@@ -11,7 +11,7 @@ import expression.Multiply;
  * Time: 17:18
  * To change this template use File | Settings | File Templates.
  */
-public class MyInteger implements MyNumber<MyInteger> {
+public class MyInteger extends MyNumber<MyInteger> {
     final public int value;
 
     public MyInteger() {
@@ -107,17 +107,6 @@ public class MyInteger implements MyNumber<MyInteger> {
             throw new OverflowException("pow error");
         }
         return new MyInteger(pow(a, b));
-    }
-
-    @Override
-    public MyInteger parse(String s, int pos) throws ParseException {
-        int result;
-        try {
-            result = (int)Long.parseLong(s);
-        } catch (NumberFormatException e) {
-            throw new ParseException("parse fail at " + Integer.toString(pos));
-        }
-        return new MyInteger(result);
     }
 
     @Override

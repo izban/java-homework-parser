@@ -4,6 +4,10 @@ import exceptions.DivisionByZeroException;
 import exceptions.LogException;
 import exceptions.OverflowException;
 import exceptions.ParseException;
+import expression.Expression3;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,17 +16,16 @@ import exceptions.ParseException;
  * Time: 17:11
  * To change this template use File | Settings | File Templates.
  */
-public interface MyNumber<T> {
-    T add(T x) throws OverflowException;
-    T subtract(T x) throws OverflowException;
-    T multiply(T x) throws OverflowException;
-    T divide(T x) throws OverflowException, DivisionByZeroException;
-    T unaryAbs() throws OverflowException;
-    T unaryNot();
-    T unaryMinus() throws OverflowException;
-    T unaryLb() throws LogException;
-    T pow(T x) throws OverflowException;
-    T parse(String s, int pos) throws ParseException;
-    int compareTo(T a);
-    String toString();
+public abstract class MyNumber<T> {
+    public abstract T add(T x) throws OverflowException;
+    public abstract T subtract(T x) throws OverflowException;
+    public abstract T multiply(T x) throws OverflowException;
+    public abstract T divide(T x) throws OverflowException, DivisionByZeroException;
+    public abstract T unaryAbs() throws OverflowException;
+    public abstract T unaryNot();
+    public abstract T unaryMinus() throws OverflowException;
+    public abstract T unaryLb() throws LogException;
+    public abstract T pow(T x) throws OverflowException;
+    public abstract int compareTo(T a);
+    public abstract String toString();
 }

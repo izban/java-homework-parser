@@ -12,7 +12,7 @@ import exceptions.ParseException;
  * Time: 17:18
  * To change this template use File | Settings | File Templates.
  */
-public class MyDouble implements MyNumber<MyDouble> {
+public class MyDouble extends MyNumber<MyDouble> {
     private final double eps = 1e-9;
 
     final public double value;
@@ -83,17 +83,6 @@ public class MyDouble implements MyNumber<MyDouble> {
     public MyDouble pow(MyDouble x) throws OverflowException {
         double a = value, b = x.value;
         return new MyDouble(Math.pow(a, b));
-    }
-
-    @Override
-    public MyDouble parse(String s, int pos) throws ParseException {
-        double result;
-        try {
-            result = Double.parseDouble(s);
-        } catch (NumberFormatException e) {
-            throw new ParseException("parse fail at " + Integer.toString(pos));
-        }
-        return new MyDouble(result);
     }
 
     @Override
