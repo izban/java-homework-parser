@@ -29,4 +29,5 @@ public abstract class MyNumber<T> {
     public abstract int compareTo(T a);
     public abstract String toString();
     public abstract T parse(String s) throws ParseException;
+    public abstract String getType();
 }

@@ -124,4 +124,9 @@ public class MyInteger extends MyNumber<MyInteger> {
         }
         return new MyInteger(result);
     }
+
+    @Override
+    public String getType() {
+        return "MyInteger";
+    }
 }

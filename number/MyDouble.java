@@ -100,4 +100,9 @@ public class MyDouble extends MyNumber<MyDouble> {
     public String toString() {
         return Double.toString(value);
     }
+
+    @Override
+    public String getType() {
+        return "MyDouble";
+    }
 }

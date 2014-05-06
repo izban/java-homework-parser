@@ -138,12 +138,20 @@ public abstract class Helper<T extends MyNumber<T>> {
             case "lb":
                 return new UnaryLb<T>(expr);
             case "sin":
-                return new UnaryOperator<T>(expr) {
-                    protected T evalImpl(T a) throws ParseException {
-                        return a.parse(Double.toString(Math.sin(Double.parseDouble(a.toString()))));
+                return new Expression3<T>() {
+                    private T evalImpl(T a) throws ParseException {
+                        return a.parse(
+                                Double.toString(
+                                Math.sin(
+                                Double.parseDouble(
+                                a.toString()))));
                     }
                     public T evaluate(T x, T y, T z) throws MyException {
-                        return evalImpl(expr.evaluate(x, y, z));
+                        if (x.getType().equals("MyDouble")) {
+                            return evalImpl(expr.evaluate(x, y, z));
+                        } else {
+                            throw new ParseException("wrong operator");
+                        }
                     }
                 };
             default:

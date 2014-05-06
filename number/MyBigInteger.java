@@ -122,4 +122,9 @@ public class MyBigInteger extends MyNumber<MyBigInteger> {
         }
         return new MyBigInteger(result);
     }
+
+    @Override
+    public String getType() {
+        return "MyBigInteger";
+    }
 }
