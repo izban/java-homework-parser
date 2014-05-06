@@ -5,6 +5,7 @@ import exceptions.ParseException;
 import expression.*;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,15 +15,9 @@ import java.util.HashMap;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class Helper<T extends MyNumber<T>> {
-    static HashMap<String, Integer> prior;
-    static HashMap<String, Integer> operands;
-    static HashMap<String, Boolean> isLeft;
-
-    {
-        prior = new HashMap<>();
-        operands = new HashMap<>();
-        isLeft = new HashMap<>();
-    }
+    static Map<String, Integer> prior = new HashMap<>();
+    static Map<String, Integer> operands = new HashMap<>();
+    static Map<String, Boolean> isLeft = new HashMap<>();
 
     {
         prior.put("*", 1);

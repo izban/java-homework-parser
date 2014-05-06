@@ -30,12 +30,16 @@ public class GenericParser {
     void run(String[] args) {
         try {
             String type = args[0];
-            if (type.equals("-i")) {
-                test(args[1], new HelperInteger());
-            } else if (type.equals("-d")) {
-                test(args[1], new HelperDouble());
-            } else if (type.equals("-bi")) {
-                test(args[1], new HelperBigInteger());
+            switch (type) {
+                case "-i":
+                    test(args[1], new HelperInteger());
+                    break;
+                case "-d":
+                    test(args[1], new HelperDouble());
+                    break;
+                case "-bi":
+                    test(args[1], new HelperBigInteger());
+                    break;
             }
         } catch (Exception e) {
 
