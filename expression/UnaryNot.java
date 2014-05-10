@@ -4,11 +4,21 @@ import exceptions.MyException;
 import number.MyNumber;
 
 public class UnaryNot<T extends MyNumber<T>> extends UnaryOperator<T> {
-    public UnaryNot(Expression3<T> x) {
-        super(x);
+    public UnaryNot() {
+        super();
     }
-    
-    protected T evalImpl(T a) throws MyException {
-        return a.unaryNot();
+
+    public UnaryNot(Expression3<T> e) {
+        super(e, new MyFunction<T>() {
+            @Override
+            public T evalImpl(T a) throws MyException {
+                return a.unaryNot();
+            }
+
+            @Override
+            public T evalImpl(T a, T b) throws MyException {
+                return null;
+            }
+        });
     }
 }

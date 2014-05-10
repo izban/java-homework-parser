@@ -20,7 +20,7 @@ public class ExpressionParser<T extends MyNumber<T>> {
     }
 
     boolean isVariable(String s) {
-        return Helper.isVariable(s);
+        return helper.isVariable(s);
     }
 
     private Expression3<T> parseExpr(int h) throws ParseException {
@@ -28,13 +28,13 @@ public class ExpressionParser<T extends MyNumber<T>> {
             if (h < 3) {
                 Expression3<T> left = parseExpr(h + 1);
                 String s = lastLexem;
-                if (s.equals("") || Helper.getPrior(s) < h) {
+                if (s.equals("") || helper.getPrior(s) < h) {
                     return left;
                 }
                 if (h == 0 || h == 1) {
                     while (true) {
                         s = lastLexem;
-                        if (s.equals("") || Helper.getPrior(s) < h) {
+                        if (s.equals("") || helper.getPrior(s) < h) {
                             return left;
                         }
                         left = helper.applyFunction(s, left, parseExpr(h + 1));

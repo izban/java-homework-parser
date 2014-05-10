@@ -5,15 +5,20 @@ import number.MyNumber;
 
 public abstract class UnaryOperator<T extends MyNumber<T>> implements Expression3<T> {
     protected final Expression3<T> e;
+    protected final MyFunction<T> f;
 
-    public UnaryOperator(Expression3<T> e) {
-        this.e = e;
+    public UnaryOperator() {
+        e = null;
+        f = null;
     }
 
-    protected abstract T evalImpl(T a) throws MyException;
+    public UnaryOperator(Expression3<T> e, MyFunction<T> f) {
+        this.e = e;
+        this.f = f;
+    }
 
     public T evaluate(T x, T y, T z) throws MyException {
        T a = e.evaluate(x, y, z);
-       return evalImpl(a);
+       return f.evalImpl(a);
     }
 }

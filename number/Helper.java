@@ -1,5 +1,6 @@
 package number;
 
+import exceptions.CalculateException;
 import exceptions.MyException;
 import exceptions.ParseException;
 import expression.*;
@@ -15,142 +16,203 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class Helper<T extends MyNumber<T>> {
-    static Map<String, Integer> prior = new HashMap<>();
-    static Map<String, Integer> operands = new HashMap<>();
-    static Map<String, Boolean> isLeft = new HashMap<>();
+    public class Item {
+        int prior, operands;
+        boolean isLeft;
+        MyFunction<T> f;
+
+        Item() {}
+        Item(int prior, int operands, boolean isLeft, MyFunction<T> f) {
+            this.prior = prior;
+            this.operands = operands;
+            this.isLeft = isLeft;
+            this.f = f;
+        }
+    }
+    Map<String, Item> mp = new HashMap<>();
 
     {
-        prior.put("*", 1);
-        operands.put("*", 2);
-        isLeft.put("*", true);
+        mp.put("*", new Item(1, 2, true, new MyFunction<T>() {
+            @Override
+            public T evalImpl(T a) throws MyException {
+                return null;
+            }
+
+            @Override
+            public T evalImpl(T a, T b) throws MyException {
+                return a.multiply(b);
+            }
+        }));
     }
 
     {
-        prior.put("/", 1);
-        operands.put("/", 2);
-        isLeft.put("/", true);
+        mp.put("/", new Item(1, 2, true, new MyFunction<T>() {
+            @Override
+            public T evalImpl(T a) throws MyException {
+                return null;
+            }
+
+            @Override
+            public T evalImpl(T a, T b) throws MyException {
+                return a.divide(b);
+            }
+        }));
     }
 
     {
-        prior.put("+", 0);
-        operands.put("+", 2);
-        isLeft.put("+", true);
+        mp.put("+", new Item(0, 2, true, new MyFunction<T>() {
+            @Override
+            public T evalImpl(T a) throws MyException {
+                return null;
+            }
+
+            @Override
+            public T evalImpl(T a, T b) throws MyException {
+                return a.add(b);
+            }
+        }));
     }
 
     {
-        prior.put("-", 0);
-        operands.put("-", 2);
-        isLeft.put("-", true);
+        mp.put("-", new Item(0, 2, true, new MyFunction<T>() {
+            @Override
+            public T evalImpl(T a) throws MyException {
+                return null;
+            }
+
+            @Override
+            public T evalImpl(T a, T b) throws MyException {
+                return a.subtract(b);
+            }
+        }));
     }
 
     {
-        prior.put("^", 2);
-        operands.put("^", 2);
-        isLeft.put("^", false);
+        mp.put("^", new Item(2, 2, true, new MyFunction<T>() {
+            @Override
+            public T evalImpl(T a) throws MyException {
+                return null;
+            }
+
+            @Override
+            public T evalImpl(T a, T b) throws MyException {
+                return a.pow(b);
+            }
+        }));
     }
 
     {
-        prior.put("~", 3);
-        operands.put("~", 1);
+        mp.put("~", new Item(3, 1, false, new MyFunction<T>() {
+            @Override
+            public T evalImpl(T a) throws MyException {
+                return a.unaryNot();
+            }
+
+            @Override
+            public T evalImpl(T a, T b) throws MyException {
+                return null;
+            }
+        }));
     }
 
     {
-        prior.put("not", 3);
-        operands.put("not", 1);
+        mp.put("abs", new Item(3, 1, false, new MyFunction<T>() {
+            @Override
+            public T evalImpl(T a) throws MyException {
+                return a.unaryAbs();
+            }
+
+            @Override
+            public T evalImpl(T a, T b) throws MyException {
+                return null;
+            }
+        }));
     }
 
     {
-        prior.put("abs", 3);
-        operands.put("abs", 1);
+        mp.put("-un", new Item(3, 1, false, new MyFunction<T>() {
+            @Override
+            public T evalImpl(T a) throws MyException {
+                return a.unaryMinus();
+            }
+
+            @Override
+            public T evalImpl(T a, T b) throws MyException {
+                return null;
+            }
+        }));
     }
 
     {
-        prior.put("-un", 3);
-        operands.put("-un", 1);
+        mp.put(")", new Item(-1, 0, false, null));
     }
 
     {
-        prior.put(")", -1);
-    }
+        mp.put("sin", new Item(3, 1, false, new MyFunction<T>() {
+            @Override
+            public T evalImpl(T a) throws MyException {
+                if (a.getType().equals("MyDouble")) {
+                    return a.parse(
+                            Double.toString(
+                                    Math.sin(
+                                            Double.parseDouble(
+                                                    a.toString()
+                                            )
+                                    )
+                            )
+                    );
+                } else {
+                    throw new CalculateException("invalid operation");
+                }
+            }
 
-    {
-        prior.put("sin", 3);
-        operands.put("sin", 1);
+            @Override
+            public T evalImpl(T a, T b) throws MyException {
+                return null;
+            }
+        }));
     }
 
     public abstract T parse(String s) throws ParseException;
 
-    public static boolean isVariable(String s) {
-        return !prior.containsKey(s);
+    public boolean isVariable(String s) {
+        return !mp.containsKey(s);
     }
 
-    public static int getPrior(String s) throws ParseException {
-        if (!prior.containsKey(s)) {
+    public int getPrior(String s) throws ParseException {
+        if (!mp.containsKey(s)) {
             throw new ParseException();
         }
-        return prior.get(s);
+        return mp.get(s).prior;
     }
 
-    public static int getOperands(String s) throws ParseException {
-        if (!operands.containsKey(s)) {
+    public int getOperands(String s) throws ParseException {
+        if (!mp.containsKey(s)) {
             throw new ParseException();
         }
-        return operands.get(s);
+        return mp.get(s).operands;
     }
 
-    public static boolean isLeft(String s) throws ParseException {
-        if (!isLeft.containsKey(s)) {
+    public boolean isLeft(String s) throws ParseException {
+        if (!mp.containsKey(s)) {
             throw new ParseException();
         }
-        return isLeft.get(s);
+        return mp.get(s).isLeft;
     }
 
     public Expression3<T> applyFunction(String s, Expression3<T> left, Expression3<T> right) throws ParseException {
-        switch (s) {
-            case "+":
-                return new Add<>(left, right);
-            case "-":
-                return new Subtract<>(left, right);
-            case "*":
-                return new Multiply<>(left, right);
-            case "/":
-                return new Divide<>(left, right);
-            case "^":
-                return new Pow<>(left, right);
-            default:
-                throw new ParseException();
+        if (!mp.containsKey(s)) {
+            throw new ParseException("invalid function");
         }
+        MyFunction<T> f = mp.get(s).f;
+        return new BinaryOperator<T>(left, right, f) {};
     }
 
     public Expression3<T> applyFunction(String s, final Expression3<T> expr) throws ParseException {
-        switch (s) {
-            case "~":
-                return new UnaryNot<T>(expr);
-            case "-un":
-                return new UnaryMinus<T>(expr);
-            case "abs":
-                return new UnaryAbs<T>(expr);
-            case "lb":
-                return new UnaryLb<T>(expr);
-            case "sin":
-                return new Expression3<T>() {
-                    private T evalImpl(T a) throws ParseException {
-                        return a.parse(
-                                Double.toString(
-                                Math.sin(
-                                Double.parseDouble(
-                                a.toString()))));
-                    }
-                    public T evaluate(T x, T y, T z) throws MyException {
-                        if (x.getType().equals("MyDouble")) {
-                            return evalImpl(expr.evaluate(x, y, z));
-                        } else {
-                            throw new ParseException("wrong operator");
-                        }
-                    }
-                };
-            default:
-                throw new ParseException();
+        if (!mp.containsKey(s)) {
+            throw new ParseException("invalid function");
         }
+        MyFunction<T> f = mp.get(s).f;
+        return new UnaryOperator<T>(expr, f) {};
     }
 }
