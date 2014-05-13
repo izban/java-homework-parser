@@ -126,7 +126,7 @@ public class MyInteger extends MyNumber<MyInteger> {
     }
 
     @Override
-    public String getType() {
-        return "MyInteger";
+    public Types.type getType() {
+        return Types.type.MyInteger;
     }
 }

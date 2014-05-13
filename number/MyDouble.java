@@ -102,7 +102,7 @@ public class MyDouble extends MyNumber<MyDouble> {
     }
 
     @Override
-    public String getType() {
-        return "MyDouble";
+    public Types.type getType() {
+        return Types.type.MyDouble;
     }
 }

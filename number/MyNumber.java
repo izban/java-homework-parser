@@ -5,7 +5,7 @@ import exceptions.LogException;
 import exceptions.OverflowException;
 import exceptions.ParseException;
 import expression.Expression3;
-
+import number.Types;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -29,5 +29,5 @@ public abstract class MyNumber<T> {
     public abstract int compareTo(T a);
     public abstract String toString();
     public abstract T parse(String s) throws ParseException;
-    public abstract String getType();
+    public abstract Types.type getType();
 }

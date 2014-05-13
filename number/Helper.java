@@ -151,7 +151,7 @@ public abstract class Helper<T extends MyNumber<T>> {
         mp.put("sin", new Item(3, 1, false, new MyFunction<T>() {
             @Override
             public T evalImpl(T a) throws MyException {
-                if (a.getType().equals("MyDouble")) {
+                if (a.getType() == Types.type.MyDouble) {
                     return a.parse(
                             Double.toString(
                                     Math.sin(

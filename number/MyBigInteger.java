@@ -124,7 +124,7 @@ public class MyBigInteger extends MyNumber<MyBigInteger> {
     }
 
     @Override
-    public String getType() {
-        return "MyBigInteger";
+    public Types.type getType() {
+        return Types.type.MyBigInteger;
     }
 }
